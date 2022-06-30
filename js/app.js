@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //event listeners
 marca.addEventListener('change', (e) => {
    dataSearch.marca = e.target.value;
+   carFilter();
 })
 year.addEventListener('change', (e) => {
    dataSearch.year = e.target.value;
@@ -70,4 +71,18 @@ function fillSelects(){
         yearHTML.textContent = i;
         year.appendChild(yearHTML);
     };
+}
+
+//function that filter with the search
+function carFilter(){
+    const resultado = autos.filter( modelFilter )
+    console.log(resultado)
+}
+
+function modelFilter(car){
+    const {marca} = dataSearch;
+    if (marca){
+        return car.marca === marca;
+    }
+    return car;
 }
