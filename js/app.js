@@ -32,21 +32,28 @@ marca.addEventListener('change', (e) => {
    dataSearch.marca = e.target.value;
    carFilter();
 })
+
 year.addEventListener('change', (e) => {
-   dataSearch.year = e.target.value;
+    dataSearch.year = parseInt(e.target.value);
+    carFilter();
 })
+
 min.addEventListener('change', (e) => {
    dataSearch.minimo = e.target.value;
 })
+
 maximo.addEventListener('change', (e) => {
    dataSearch.maximo = e.target.value;
 })
+
 puertas.addEventListener('change', (e) => {
    dataSearch.puertas = e.target.value;
 })
+
 transmision.addEventListener('change', (e) => {
    dataSearch.transmision = e.target.value;
 })
+
 color.addEventListener('change', (e) => {
    dataSearch.color = e.target.value;
 })
@@ -75,14 +82,22 @@ function fillSelects(){
 
 //function that filter with the search
 function carFilter(){
-    const resultado = autos.filter( modelFilter )
+    const resultado = autos.filter(modelFilter).filter(yearFilter)
     console.log(resultado)
 }
-
+//filter by models
 function modelFilter(car){
     const {marca} = dataSearch;
     if (marca){
         return car.marca === marca;
+    }
+    return car;
+}
+//filter by years
+function yearFilter(car){
+    const {year} = dataSearch;
+    if (year){
+        return car.year === year;
     }
     return car;
 }
