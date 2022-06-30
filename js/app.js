@@ -1,14 +1,18 @@
 //variables
 const results = document.getElementById('resultado');
+const year = document.getElementById('year');
+const maxYear = new Date().getFullYear();
+const minYear = maxYear - 10;
 
-
-
+//Principal function
 document.addEventListener('DOMContentLoaded', () => {
-    mostrarAutos();
+    showCars();
+
+    fillSelects();
 });
 
 //functions 
-function mostrarAutos(){
+function showCars(){
     autos.forEach( car => {
         const {marca,modelo,year,precio,puertas,color,transmision} = car;
         const carHTML = document.createElement('p');
@@ -19,3 +23,12 @@ function mostrarAutos(){
     });
 }
 
+function fillSelects(){
+
+    for(let i= maxYear; i > minYear; i--){
+        const yearHTML = document.createElement('option');
+        yearHTML.value = i;
+        yearHTML.textContent = i;
+        year.appendChild(yearHTML);
+    };
+}
