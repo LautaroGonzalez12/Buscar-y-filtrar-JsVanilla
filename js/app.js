@@ -96,8 +96,26 @@ function fillSelects(){
 
 //function that filter with the search
 function carFilter(){
-    const resultado = autos.filter(modelFilter).filter(yearFilter).filter(priceFilter).filter(priceFilterMax).filter(filterDoor).filter(filterTransmision).filter(colorFilter)
-    showCars(resultado);
+    const resultado = autos.filter(modelFilter).filter(yearFilter).filter(priceFilter).filter(priceFilterMax).filter(filterDoor).filter(filterTransmision).filter(colorFilter);
+
+    if (resultado.length){
+        showCars(resultado);
+    } else {
+        noResult();
+    }
+
+ //show the erros if the inputs are empty
+ function noResult(){
+    clearHTML();
+    const errorHTML = document.createElement('div');
+    errorHTML.textContent = `
+       No se encuentran Resultados
+    `;
+    errorHTML.classList.add('alerta', 'error');
+    results.appendChild(errorHTML)
+ }
+
+
 }
 //filter by models
 function modelFilter(car){
