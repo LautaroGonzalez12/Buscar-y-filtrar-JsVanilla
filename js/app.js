@@ -23,7 +23,7 @@ const dataSearch = {
 
 //Principal function
 document.addEventListener('DOMContentLoaded', () => {
-    showCars();
+    showCars(autos);
 
     fillSelects();
 });
@@ -40,27 +40,33 @@ year.addEventListener('change', (e) => {
 
 min.addEventListener('change', (e) => {
    dataSearch.minimo = e.target.value;
+   carFilter();
 })
 
 maximo.addEventListener('change', (e) => {
-   dataSearch.maximo = e.target.value;
+    dataSearch.maximo = e.target.value;
+    carFilter();
 })
 
 puertas.addEventListener('change', (e) => {
-   dataSearch.puertas = e.target.value;
+   dataSearch.puertas = parseInt(e.target.value);
+   carFilter();
 })
 
 transmision.addEventListener('change', (e) => {
    dataSearch.transmision = e.target.value;
+   carFilter();
 })
 
 color.addEventListener('change', (e) => {
    dataSearch.color = e.target.value;
+   carFilter();
 })
 
 //functions 
-function showCars(){
-    autos.forEach( car => {
+function showCars(resultado){
+    clearHTML();
+    resultado.forEach( car => {
         const {marca,modelo,year,precio,puertas,color,transmision} = car;
         const carHTML = document.createElement('p');
         carHTML.textContent = `
@@ -69,6 +75,14 @@ function showCars(){
         results.appendChild(carHTML);
     });
 }
+
+//clear the HTML
+function clearHTML(){
+    while (results.firstChild){
+        results.removeChild(results.firstChild);
+    }
+}
+
 //fill the selects in the html
 function fillSelects(){
 
@@ -82,8 +96,8 @@ function fillSelects(){
 
 //function that filter with the search
 function carFilter(){
-    const resultado = autos.filter(modelFilter).filter(yearFilter)
-    console.log(resultado)
+    const resultado = autos.filter(modelFilter).filter(yearFilter).filter(priceFilter).filter(priceFilterMax).filter(filterDoor).filter(filterTransmision).filter(colorFilter)
+    showCars(resultado);
 }
 //filter by models
 function modelFilter(car){
@@ -98,6 +112,45 @@ function yearFilter(car){
     const {year} = dataSearch;
     if (year){
         return car.year === year;
+    }
+    return car;
+}
+//filter by price
+function priceFilter(car){
+    const {minimo} = dataSearch;
+    if (minimo){
+        return car.precio >= minimo;
+    }
+    return car;
+}
+//filter by price for max
+function priceFilterMax(car){
+    const {maximo} = dataSearch;
+    if (maximo){
+       return car.precio <= maximo;
+    }
+    return car;
+}
+//filter by doors
+function filterDoor(car){
+    const {puertas} = dataSearch;
+    if (puertas){
+        return car.puertas === puertas;
+    }
+    return car;
+}//filter by transmision
+function filterTransmision(car){
+    const {transmision} = dataSearch;
+    if (transmision){
+        return car.transmision === transmision;
+    }
+    return car;
+}
+//filter by transmision
+function colorFilter(car){
+    const {color} = dataSearch;
+    if (color){
+        return car.color === color;
     }
     return car;
 }
